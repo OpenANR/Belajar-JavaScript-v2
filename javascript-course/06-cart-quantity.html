@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jumlah Keranjang</title>
+</head>
+
+<body>
+    <button onclick="console.log(`Jumlah Keranjang = ${keranjang};`);">Tampilkan Jumlah Keranjang</button>
+
+    <button onclick="keranjang ++ ; console.log(`Jumlah Keranjang = ${keranjang};`);">Tambah ke Keranjang</button>
+
+    <button onclick="keranjang += 2; console.log(`Jumlah Keranjang = ${keranjang};`);">+2</button>
+
+    <button onclick="keranjang += 3; console.log(`Jumlah Keranjang = ${keranjang};`);">+3</button>
+
+    <button onclick="keranjang = 0; console.log('Keranjang telah direset.'); console.log(`Jumlah Keranjang = ${keranjang};`);">Reset Keranjang</button>
+
+    <script>
+        let keranjang = 0;
+    </script>
+</body>
+</html>

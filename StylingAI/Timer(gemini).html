@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer JavaScript - Gemini</title>
+    
+    <!-- Import Tailwind CSS untuk Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Import Google Fonts (Inter untuk teks biasa, JetBrains Mono untuk angka) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Menghindari pergeseran lebar karakter saat angka berubah */
+        .tabular-nums {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 min-h-screen flex items-center justify-center p-4 text-slate-100 selection:bg-emerald-500 selection:text-white">
+
+    <!-- Card Container dengan efek Glassmorphism -->
+    <div class="bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-md transition-all duration-500 hover:shadow-emerald-500/10">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent inline-block">
+                Timer JavaScript
+            </h1>
+            <p class="text-slate-400 mt-2 text-sm font-medium">Penghitung Waktu Otomatis</p>
+        </div>
+        
+        <!-- Area Display Angka -->
+        <div class="bg-slate-900/80 rounded-2xl p-8 mb-8 border border-slate-700/50 shadow-inner flex flex-col items-center justify-center relative overflow-hidden">
+            <!-- Dekorasi cahaya samar di latar belakang angka -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-24 bg-emerald-500/10 blur-2xl rounded-full"></div>
+            
+            <span class="text-slate-400 text-xs font-bold mb-3 uppercase tracking-[0.2em]">Total Angka</span>
+            <div id="display" class="text-7xl sm:text-8xl font-bold tabular-nums text-white tracking-tighter z-10 drop-shadow-md">
+                0
+            </div>
+        </div>
+
+        <!-- Tombol Kontrol -->
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <!-- Tombol Mulai -->
+            <button id="start" class="group flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.97] shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Mulai
+            </button>
+            
+            <!-- Tombol Stop -->
+            <button id="stop" class="group flex-1 bg-rose-500 hover:bg-rose-600 text-white font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.97] shadow-lg shadow-rose-500/20 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
+                </svg>
+                Stop
+            </button>
+
+            <!-- Tombol Reset -->
+            <button id="reset" class="group flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3.5 px-4 rounded-xl transition-all duration-200 active:scale-[0.97] border border-slate-600 hover:border-slate-500 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5 transition-transform group-hover:-rotate-90 group-active:-rotate-180 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Reset
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let angka = 0;
+        let timer;
+
+        // Mengambil elemen dari DOM
+        const display = document.getElementById('display');
+        const start = document.getElementById('start');
+        const stop = document.getElementById('stop');
+        const reset = document.getElementById('reset');
+
+        // Fungsi untuk menambah angka dan memperbarui UI
+        function updateNumber() {
+            angka++;
+            display.textContent = angka;
+            
+            // Sedikit efek animasi detak ringan pada angka
+            display.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                display.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        // Event Listener untuk tombol Mulai
+        start.addEventListener('click', () => {
+            // Mencegah timer berjalan ganda jika tombol 'Mulai' diklik berkali-kali
+            clearInterval(timer);
+            timer = setInterval(updateNumber, 1000);
+        });
+
+        // Event Listener untuk tombol Stop
+        stop.addEventListener('click', () => {
+            clearInterval(timer);
+        });
+
+        // Event Listener untuk tombol Reset
+        reset.addEventListener('click', () => {
+            clearInterval(timer);
+            angka = 0;
+            display.textContent = angka;
+        });
+    </script>
+</body>
+</html>

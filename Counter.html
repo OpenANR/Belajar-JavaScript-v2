@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Counter Sederhana</h1>
+    <button id="tambah">TAMBAH</button>
+    <button id="kurang">KURANG</button>
+    <button id="reset">RESET</button>
+
+    <h3>Angka = <span id="display">0</span></h3>
+
+    <script>
+        let number = 0;
+
+        const tambah = document.getElementById('tambah');
+        const kurang = document.getElementById('kurang');
+        const reset = document.getElementById('reset');
+        const display = document.getElementById('display');
+
+        function updateNumber(){
+            display.textContent = number;
+        }
+
+        tambah.addEventListener('click', () => {
+            number ++;
+            updateNumber();
+            limitNumber();
+        });
+
+        kurang.addEventListener('click', () => {
+            number--;
+            updateNumber();
+        });
+
+        reset.addEventListener('click', () => {
+            number = 0;
+            updateNumber();
+            showMessage();
+        });
+
+        function showMessage(){
+            alert('Penghitung telah di reset ke 0');
+        }
+
+        function limitNumber(){
+            if(number >= 10){
+                number = 0;
+                alert('Angka telah mencapai batas 10.');
+            }
+        }
+    </script>
+</body>
+</html>

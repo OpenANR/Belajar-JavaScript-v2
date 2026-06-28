@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Timer JavaScript</h1>
+    
+    <h3>Angka = <span id="display">0</span></h3>
+    <button id="start">Mulai</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+
+    <script>
+        let angka = 0;
+        let timer;
+
+        const display = document.getElementById('display');
+        const start = document.getElementById('start');
+        const stop = document.getElementById('stop');
+        const reset = document.getElementById('reset');
+
+        function updateNumber(){
+            angka++;
+            display.textContent = angka;
+        }
+
+        start.addEventListener('click', () => {
+            clearInterval(timer);
+            timer = setInterval(updateNumber, 1000);
+        });
+
+        stop.addEventListener('click', () => {
+            clearInterval(timer);
+        })
+
+        reset.addEventListener('click', () => {
+            clearInterval(timer);
+            angka = 0;
+            display.textContent = angka;
+        });
+    </script>
+</body>
+</html>

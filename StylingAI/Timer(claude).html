@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer JavaScript - Claude</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #14171a;
+            --paper: #eee9df;
+            --panel: #1b1f23;
+            --panel-edge: #2c3238;
+            --brass: #c98a3e;
+            --brass-bright: #e8a957;
+            --signal: #5fbf8f;
+            --signal-dim: #3a8a63;
+            --danger: #d9624c;
+            --danger-dim: #9c4233;
+            --display-off: #2a3530;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100vh;
+        }
+
+        body {
+            background: var(--paper);
+            background-image:
+                radial-gradient(circle at 1px 1px, rgba(20, 23, 26, 0.06) 1px, transparent 0);
+            background-size: 18px 18px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+
+        .device {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding: 0 4px;
+        }
+
+        .eyebrow .label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--ink);
+            opacity: 0.55;
+        }
+
+        .eyebrow .model {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+            color: var(--ink);
+            opacity: 0.4;
+        }
+
+        .panel {
+            background: var(--panel);
+            border-radius: 18px;
+            padding: 30px 26px 24px;
+            box-shadow:
+                0 1px 0 var(--panel-edge) inset,
+                0 22px 40px -18px rgba(20, 17, 12, 0.45),
+                0 2px 4px rgba(20, 17, 12, 0.25);
+            position: relative;
+            border: 1px solid #0e1113;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 18px;
+            padding: 1px;
+            background: linear-gradient(160deg, rgba(255,255,255,0.08), transparent 35%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .rivet {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #4a5158, #0c0e10);
+        }
+        .rivet.tl { top: 14px; left: 14px; }
+        .rivet.tr { top: 14px; right: 14px; }
+        .rivet.bl { bottom: 14px; left: 14px; }
+        .rivet.br { bottom: 14px; right: 14px; }
+
+        .readout {
+            background: var(--display-off);
+            border-radius: 10px;
+            padding: 26px 18px 20px;
+            text-align: center;
+            box-shadow:
+                inset 0 2px 6px rgba(0,0,0,0.55),
+                inset 0 0 0 1px rgba(0,0,0,0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .readout::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,0,0,0.08) 0px,
+                rgba(0,0,0,0.08) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+        }
+
+        .readout-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--signal);
+            opacity: 0.75;
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px rgba(95, 191, 143, 0.35);
+        }
+
+        #display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 64px;
+            font-weight: 700;
+            color: var(--signal);
+            text-shadow:
+                0 0 6px rgba(95, 191, 143, 0.55),
+                0 0 22px rgba(95, 191, 143, 0.25);
+            line-height: 1;
+            letter-spacing: 0.02em;
+            transition: text-shadow 0.15s ease;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #display.running {
+            color: var(--brass-bright);
+            text-shadow:
+                0 0 6px rgba(232, 169, 87, 0.6),
+                0 0 24px rgba(232, 169, 87, 0.3);
+        }
+
+        .unit {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--signal);
+            opacity: 0.55;
+            letter-spacing: 0.15em;
+            margin-top: 8px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+            margin-bottom: 22px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4a4f44;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.3);
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .status-dot.active {
+            background: var(--signal);
+            box-shadow: 0 0 8px rgba(95, 191, 143, 0.9), 0 0 2px rgba(95, 191, 143, 1);
+        }
+
+        .status-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #8d9389;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        button {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            border: none;
+            border-radius: 9px;
+            padding: 14px 8px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--brass-bright);
+            outline-offset: 3px;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        #start {
+            background: linear-gradient(180deg, var(--signal-dim), #2d6e4d);
+            color: #eafff2;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.18) inset,
+                0 3px 0 #234f37,
+                0 6px 10px -4px rgba(0,0,0,0.5);
+        }
+        #start:hover { filter: brightness(1.08); }
+        #start:active {
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.12) inset,
+                0 1px 0 #234f37,
+                0 2px 4px -2px rgba(0,0,0,0.5);
+        }
+
+        #stop {
+            background: linear-gradient(180deg, var(--danger-dim), #7a3327);
+            color: #ffeeea;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.16) inset,
+                0 3px 0 #5c271d,
+                0 6px 10px -4px rgba(0,0,0,0.5);
+        }
+        #stop:hover { filter: brightness(1.08); }
+        #stop:active {
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.1) inset,
+                0 1px 0 #5c271d,
+                0 2px 4px -2px rgba(0,0,0,0.5);
+        }
+
+        #reset {
+            background: linear-gradient(180deg, #3a3f44, #262a2e);
+            color: #c9cdd1;
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.1) inset,
+                0 3px 0 #16181a,
+                0 6px 10px -4px rgba(0,0,0,0.5);
+        }
+        #reset:hover { filter: brightness(1.15); }
+        #reset:active {
+            box-shadow:
+                0 1px 0 rgba(255,255,255,0.08) inset,
+                0 1px 0 #16181a,
+                0 2px 4px -2px rgba(0,0,0,0.5);
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            color: var(--ink);
+            opacity: 0.35;
+        }
+
+        @media (max-width: 380px) {
+            #display { font-size: 52px; }
+            .panel { padding: 24px 18px 20px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="device">
+        <div class="eyebrow">
+            <span class="label">Interval Counter</span>
+            <span class="model">MDL—01</span>
+        </div>
+
+        <div class="panel">
+            <span class="rivet tl"></span>
+            <span class="rivet tr"></span>
+            <span class="rivet bl"></span>
+            <span class="rivet br"></span>
+
+            <div class="readout">
+                <div class="readout-label">Hitungan</div>
+                <div id="display">0</div>
+                <div class="unit">DETIK</div>
+            </div>
+
+            <div class="status-row">
+                <span class="status-dot" id="statusDot"></span>
+                <span class="status-text" id="statusText">Standby</span>
+            </div>
+
+            <div class="controls">
+                <button id="start">Mulai</button>
+                <button id="stop">Stop</button>
+                <button id="reset">Reset</button>
+            </div>
+        </div>
+
+        <div class="footer-note">Klik Mulai untuk menjalankan hitungan</div>
+    </div>
+
+    <script>
+        let angka = 0;
+        let timer;
+
+        const display = document.getElementById('display');
+        const start = document.getElementById('start');
+        const stop = document.getElementById('stop');
+        const reset = document.getElementById('reset');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+
+        function updateNumber(){
+            angka++;
+            display.textContent = angka;
+        }
+
+        function setRunningState(isRunning) {
+            display.classList.toggle('running', isRunning);
+            statusDot.classList.toggle('active', isRunning);
+            statusText.textContent = isRunning ? 'Berjalan' : 'Standby';
+        }
+
+        start.addEventListener('click', () => {
+            clearInterval(timer);
+            timer = setInterval(updateNumber, 1000);
+            setRunningState(true);
+        });
+
+        stop.addEventListener('click', () => {
+            clearInterval(timer);
+            setRunningState(false);
+        });
+
+        reset.addEventListener('click', () => {
+            clearInterval(timer);
+            angka = 0;
+            display.textContent = angka;
+            setRunningState(false);
+        });
+    </script>
+</body>
+</html>

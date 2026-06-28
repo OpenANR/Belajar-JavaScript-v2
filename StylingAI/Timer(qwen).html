@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer JavaScript - Qwen</title>
+
+    <style>
+        /* 1. CSS Custom Properties untuk Theming & Skalabilitas */
+        :root {
+            --color-bg: #0f172a;
+            --color-surface: #1e293b;
+            --color-text-primary: #f8fafc;
+            --color-text-secondary: #94a3b8;
+            --color-accent-start: #10b981;
+            --color-accent-stop: #ef4444;
+            --color-accent-reset: #64748b;
+
+            --spacing-md: 1rem;
+            --spacing-lg: 2rem;
+            --radius-md: 8px;
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 2. Base Layout & Container */
+        .timer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background-color: var(--color-surface);
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin: 10vh auto;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .timer__title {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0;
+        }
+
+        /* 3. Display Area */
+        .timer__display {
+            background-color: var(--color-bg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            width: 100%;
+            text-align: center;
+        }
+
+        .timer__value {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            font-variant-numeric: tabular-nums;
+            /* Mencegah layout shift saat angka berubah */
+        }
+
+        /* 4. Controls & Buttons (BEM Modifier) */
+        .timer__controls {
+            display: flex;
+            gap: var(--spacing-md);
+            width: 100%;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--transition-fast), opacity var(--transition-fast);
+        }
+
+        /* Menggunakan transform untuk performa GPU, bukan margin/padding */
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Fokus aksesibilitas untuk navigasi keyboard */
+        .btn:focus-visible {
+            outline: 2px solid var(--color-text-primary);
+            outline-offset: 2px;
+        }
+
+        .btn--start {
+            background-color: var(--color-accent-start);
+        }
+
+        .btn--stop {
+            background-color: var(--color-accent-stop);
+        }
+
+        .btn--reset {
+            background-color: var(--color-accent-reset);
+        }
+    </style>
+</head>
+
+<body>
+    <main class="timer">
+        <h1 class="timer__title">Timer JavaScript</h1>
+        <div class="timer__display">
+            <span id="display" class="timer__value">0</span>
+        </div>
+        <div class="timer__controls">
+            <button id="start" class="btn btn--start">Mulai</button>
+            <button id="stop" class="btn btn--stop">Stop</button>
+            <button id="reset" class="btn btn--reset">Reset</button>
+        </div>
+    </main>
+
+    <script>
+        let angka = 0;
+        let timer;
+
+        const display = document.getElementById('display');
+        const start = document.getElementById('start');
+        const stop = document.getElementById('stop');
+        const reset = document.getElementById('reset');
+
+        function updateNumber(){
+            angka++;
+            display.textContent = angka;
+        }
+
+        start.addEventListener('click', () => {
+            clearInterval(timer);
+            timer = setInterval(updateNumber, 1000);
+        });
+
+        stop.addEventListener('click', () => {
+            clearInterval(timer);
+        })
+
+        reset.addEventListener('click', () => {
+            clearInterval(timer);
+            angka = 0;
+            display.textContent = angka;
+        });
+    </script>
+</body>
+
+</html>
