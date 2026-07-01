@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>PERCOBAAN</h3>
+    <p>Masukkan jumlah timer</p>
+    <input type="number" name="timer" id="timer">
+    <button id="jalankan">PUTAR</button>
+    <button id="berhenti">STOP</button>
+    <button id="add">+1</button>
+    <h3 id="display">Timer</h3>
+    
+    <script>
+        let number = 0;
+        let stopInterval;
+        const timer = document.getElementById('timer');
+        const jalankan = document.getElementById('jalankan');
+        const display = document.getElementById('display');
+        const berhenti = document.getElementById('berhenti');
+        const add = document.getElementById('add');
+
+
+        function ReverseTimer(){
+            if (number > 0){
+                number--;
+                console.log(number);
+                display.innerText = number;
+            } else {
+                console.log('Timer Selesai');
+                clearInterval(stopInterval);
+            }
+        }
+
+        jalankan.addEventListener('click', () => {
+            number = Number(timer.value);
+            clearInterval(stopInterval);
+            display.innerText = number;
+            stopInterval = setInterval(ReverseTimer, 1000);
+        });
+
+        berhenti.addEventListener('click', () => {
+            clearInterval(stopInterval);
+        });
+        
+        add.addEventListener('click', () => {
+            clearInterval(stopInterval);
+            number++;
+            display.innerText = number;
+            stopInterval = setInterval(ReverseTimer, 1000);
+        });
+    </script>
+</body>
+
+</html>

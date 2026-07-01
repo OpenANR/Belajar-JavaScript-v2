@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penghitung Angka v2</title>
+</head>
+<body>
+    <h1>Penghitung Angka v2</h1>
+    <h3 id="angka">0</h3>
+    <button id="tambah">TAMBAH</button>
+    <button id="kurang">KURANG</button>
+    <button id="reset">RESET</button>
+
+    <script>
+        let number = 0;
+
+        const tambah = document.getElementById('tambah');
+        const kurang = document.getElementById('kurang');
+        const reset = document.getElementById('reset');
+        const angka = document.getElementById('angka');
+
+        function updateNumber(){
+            angka.textContent = number;
+        }
+
+        function limitNumber(){
+            if(number <= 0){
+                number = 0;
+            }
+        }
+
+        tambah.addEventListener('click', () => {
+            number++;
+            updateNumber();
+           
+        });
+
+        kurang.addEventListener('click', () => {
+            number--;
+            limitNumber();
+            updateNumber();
+        });
+
+        reset.addEventListener('click', () => {
+            number = 0;
+            updateNumber();
+        });
+    </script>
+</body>
+</html>
