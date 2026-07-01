@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="output">
+    <button class="tombolHuruf">A</button>
+    <button class="tombolHuruf">B</button>
+    <button class="tombolHuruf">C</button>
+    <button class="tombolHuruf">D</button>
+    <script>
+        
+        const output = document.getElementById('output');
+        const tombolHuruf = document.querySelectorAll('.tombolHuruf');
+
+        tombolHuruf.forEach(tombol => {
+            tombol.addEventListener('click', function() {
+
+                const huruf = this.innerText;
+                output.value += huruf;
+                
+            });
+        });
+    </script>
+</body>
+</html>

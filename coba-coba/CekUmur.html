@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Cek Umur</h3>
+
+    <label for="nama">Nama : </label>
+    <input type="text" name="" id="nama">
+    <label for="umur">Umur : </label>
+    <input type="number" name="" id="umur">
+    <button id="proses">PROSES</button>
+
+    <script>
+        const nama = document.getElementById('nama');
+        const umur = document.getElementById('umur');
+        const proses = document.getElementById('proses');
+
+        function ProsesUmur(){
+
+            const getUmur = Number(umur.value);
+            const getNama = nama.value;
+
+            if (getUmur >= 18){
+                console.log(`Kepada ${getNama}, Selamat, Anda telah dewasa.`);
+            } else if (getUmur >= 14){
+                console.log(`Kepada ${getNama}, Selamat, Anda telah remaja.`);
+            } else {
+                console.log(`Kepada ${getNama}, Maaf, anda masih anak-anak`);
+            }
+            
+
+            return getUmur;
+        }
+
+        proses.addEventListener('click', () => {
+            ProsesUmur();
+        });
+    </script>
+</body>
+</html>
