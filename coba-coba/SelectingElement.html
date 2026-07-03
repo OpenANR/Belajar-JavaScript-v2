@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <h1 class="judul">JUDUL 1</h1>
+    <h1 class="judul">JUDUL 2</h1>
+    <h1 class="judul">JUDUL 3</h1> -->
+
+    <hr>
+
+    <input type="checkbox" name="inputan" value ="pilihan1">Pilihan 1
+    <input type="checkbox" name="inputan" value ="pilihan2">Pilihan 2
+    <input type="checkbox" name="inputan" value ="pilihan3">Pilihan 3
+    <button id="proses">PROSES</button>
+
+    <input type="radio" name="inputan2" value="Radio1">Radio 1
+    <input type="radio" name="inputan2" value="Radio2">Radio 2
+    <input type="radio" name="inputan2" value="Radio3">Radio 3
+    <button id="proses2">PROSES</button>
+
+    <hr>
+
+    <div id="box">
+        <ul id="list">
+            
+        </ul>
+        <ul id="list2">
+            
+        </ul>
+    </div>
+
+    <script>
+        // const judul = document.querySelectorAll('.judul');
+        // judul.forEach(e => {
+        //     e.textContent = 'BACENG';
+        // });
+
+        document.getElementById('proses').addEventListener('click', () => {
+            const inputan = document.querySelectorAll('input[name="inputan"]:checked');
+            const list = document.getElementById('list');
+            list.innerText = '';
+
+            inputan.forEach(e => {
+                const element = document.createElement('li');
+                element.innerText = e.value;
+                list.append(element);
+            });
+        });
+
+        document.getElementById('proses2').addEventListener('click', () => {
+            const inputan2 = document.querySelector('input[name="inputan2"]:checked');
+            if (!inputan2){
+                alert('inputan wajib dipilih');
+                return;
+            }
+            const list2 = document.getElementById('list2');
+            list2.innerText = '';
+            
+            const element2 = document.createElement('li');
+            element2.innerText = inputan2.value;
+            list2.append(element2);
+        });
+        
+    </script>
+</body>
+</html>

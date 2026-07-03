@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="" id="inputan">
+    <button id="simpan">SIMPAN</button>
+    <script>
+        const inputan = document.getElementById('inputan');
+        const simpan = document.getElementById('simpan');
+        let data = [];
+        
+        function Proses(){
+
+            const getInputan = inputan.value.trim();
+            if (getInputan === ''){
+                alert('Data tidak boleh kosong');
+                return;
+            }
+            
+            if (data.length >= 3){
+                alert('Data Penuh');
+                return;
+            }
+            data.push(getInputan);
+        }
+
+        simpan.addEventListener('click', () => {
+            Proses();
+            inputan.value = '';
+        });
+
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="proses">TAMBAH</button>
+
+    <div>
+        <ul id="list">
+            
+        </ul>
+    </div>
+
+    <script>
+        let timer = 0;
+        const proses = document.getElementById('proses');
+        const list = document.getElementById('list');
+        list.innerText = '';
+
+        function CounterDown(){
+            timer++;
+            const element = document.createElement('li');
+            element.innerText = timer;
+            
+            list.append(element);
+        }
+        
+        proses.addEventListener('click', () => {
+            setInterval(CounterDown, 1000);
+        });
+    </script>
+</body>
+</html>
