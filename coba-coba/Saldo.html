@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>APLIKASI PENGISI SALDO SEDERHANA</h3>
+    <h3>Jumlah Saldo : <span id="display">0</span></h3>
+    <input type="number" name="" id="isiSaldo">
+    <input type="number" name="" id="tarikSaldo">
+    <button id="tambah">TAMBAH</button>
+    <button id="tarik">TARIK</button>
+
+    <script>
+        let saldo = 0;
+
+        const display = document.getElementById('display');
+        const isiSaldo = document.getElementById('isiSaldo');
+        const tarikSaldo = document.getElementById('tarikSaldo');
+        const tambah = document.getElementById('tambah');
+        const tarik = document.getElementById('tarik');
+
+        function ProsesIsiSaldo(){
+            const getSaldoValue = Number(isiSaldo.value);
+            if (getSaldoValue < 20000){
+                alert('Isi saldo minimal Rp20.000');
+                return;
+            }
+            saldo += getSaldoValue;
+            display.innerText = saldo;
+            alert(`Isi saldo berjumlah Rp${getSaldoValue} telah berhasil`);
+            isiSaldo.value = '';
+        }
+
+        function TarikIsiSaldo(){
+            const getCurrentSaldo = Number(tarikSaldo.value);
+            if (getCurrentSaldo > saldo){
+                alert('Tarik saldo melebihi jumlah saldo saat ini !');
+                return;
+            }
+
+            if (getCurrentSaldo < 10000){
+                alert('Minimal tarik saldo adalah Rp10.000');
+                return;
+            }
+            saldo -= getCurrentSaldo;
+            display.innerText = saldo;
+            alert(`Tarik saldo berjumlah Rp${getCurrentSaldo} telah berhasil. Saldo anda saat ini adalah Rp${saldo}`);
+            tarikSaldo.value = '';
+        }
+        
+        tambah.addEventListener('click', () => {
+            ProsesIsiSaldo();
+        });
+
+        tarik.addEventListener('click', () => {
+            TarikIsiSaldo();
+        });
+
+        
+    </script>
+</body>
+</html>
