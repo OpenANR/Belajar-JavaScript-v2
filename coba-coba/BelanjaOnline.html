@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="checkbox" name="produk" id="produk1" value="1000">Air Mineral
+    <input type="checkbox" name="produk" id="produk2" value="2000">Mie Instan
+    <input type="checkbox" name="produk" id="produk3" value="3000">Camilan Renyah
+    <input type="checkbox" name="produk" id="produk4" value="4000">Ikan Asin
+
+    <h4>TOTAL : <span id="total"></span></h4>
+    <h4>KEMBALIAN : <span id="kembalian"></span></h4>
+    <input type="number" id="jumlahUang" placeholder="Input kembalian...">
+
+    <button id="proses">PROSES HARGA</button>
+    <button id="hitungKembalian">HITUNG KEMBALIAN</button>
+
+    <script>
+        const proses = document.getElementById('proses');
+        const total = document.getElementById('total');
+        const kembalian = document.getElementById('kembalian');
+        const jumlahUang = document.getElementById('jumlahUang');
+        const hitungKembalian = document.getElementById('hitungKembalian');
+        
+        function ProsesPembelian(){
+            let harga = 0;
+            const produk = document.querySelectorAll('input[name="produk"]:checked');
+            if (produk.length === 0){
+                alert('Item belum dipilih');
+                return;
+            }
+
+            produk.forEach(item => {
+                const getValue = parseInt(item.value);
+                harga += getValue;
+                total.innerText = harga;
+                return harga;
+            });
+        }
+
+        function ProsesKembalian(){
+            console.log(ProsesPembelian());
+        }
+
+        proses.addEventListener('click', () => {
+            ProsesPembelian();
+        });
+
+        hitungKembalian.addEventListener('click', () => {
+            ProsesKembalian();
+        });
+
+
+
+        // document.getElementById('proses').addEventListener('click', () => {
+        //     const produk = document.querySelectorAll('input[name="produk"]:checked');
+        //     let totalHarga = 0;
+
+        //     produk.forEach(item => {
+        //         // Gunakan parseInt karena item.value bertipe string
+        //         totalHarga += parseInt(item.value);
+        //     });
+
+        //     console.log("Total Belanjaan: Rp" + totalHarga);
+        // });
+    </script>
+</body>
+
+</html>
