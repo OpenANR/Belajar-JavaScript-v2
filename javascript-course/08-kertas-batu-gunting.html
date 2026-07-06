@@ -12,18 +12,34 @@
     <button onclick="playGame('batu');">Batu</button>
     <button onclick="playGame('kertas');">Kertas</button>
     <button onclick="playGame('gunting');">Gunting</button>
+    <button onclick="
+        score.menang = 0;
+        score.kalah = 0;
+        score.seri = 0;
+        localStorage.removeItem('score');
+    ">Reset Score</button>
 
     <script>
+
+        let score = JSON.parse(localStorage.getItem('score'));
+        console.log(score);
+
+        if (score === null){
+            score = {
+                menang: 0,
+                kalah: 0,
+                seri: 0
+            }
+        }
 
         function playGame(playerMove) {
             const computerMove = pickComputerMove();
 
             let result = '';
 
-            // DI SINI PERUBAHANNYA: Menggunakan playerMove, bukan playGame
             if (playerMove === 'batu') {
                 if (computerMove === 'batu') {
-                    result = 'Seri.';
+                    result = 'Seri!';
                 } else if (computerMove === 'kertas') {
                     result = 'Kamu kalah!';
                 } else if (computerMove === 'gunting') {
@@ -34,7 +50,7 @@
                 if (computerMove === 'batu') {
                     result = 'Kamu menang!';
                 } else if (computerMove === 'kertas') {
-                    result = 'Seri.';
+                    result = 'Seri!';
                 } else if (computerMove === 'gunting') {
                     result = 'Kamu kalah!';
                 }
@@ -48,8 +64,20 @@
                     result = 'Seri!';
                 }
             }
+
+            if (result === 'Kamu menang!'){
+                score.menang += 1;
+            } else if (result === 'Kamu kalah!'){
+                score.kalah += 1;
+            } else if (result === 'Seri!'){
+                score.seri += 1;
+            }
+
+            localStorage.setItem('score', JSON.stringify(score));
             
-            alert(`Kamu memilih ${playerMove}. Computer memilih ${computerMove}. Hasil: ${result}`);
+            alert(`Kamu memilih ${playerMove}. Computer memilih ${computerMove}. Hasil: ${result}
+            Menang: ${score.menang}, Kalah: ${score.kalah}, Seri: ${score.seri}
+            `);
         }
 
         function pickComputerMove() {
