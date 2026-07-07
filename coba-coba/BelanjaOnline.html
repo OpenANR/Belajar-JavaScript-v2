@@ -21,30 +21,54 @@
     <button id="hitungKembalian">HITUNG KEMBALIAN</button>
 
     <script>
-        const proses = document.getElementById('proses');
         const total = document.getElementById('total');
         const kembalian = document.getElementById('kembalian');
         const jumlahUang = document.getElementById('jumlahUang');
+        const proses = document.getElementById('proses');
         const hitungKembalian = document.getElementById('hitungKembalian');
-        
+
         function ProsesPembelian(){
-            let harga = 0;
             const produk = document.querySelectorAll('input[name="produk"]:checked');
+            let harga = 0;
             if (produk.length === 0){
-                alert('Item belum dipilih');
+                alert('Item masih belum dipilih');
                 return;
             }
 
             produk.forEach(item => {
-                const getValue = parseInt(item.value);
+                const getValue = Number(item.value);
                 harga += getValue;
-                total.innerText = harga;
-                return harga;
             });
+            
+            const formatRupiah = harga.toLocaleString('id-ID');
+            total.innerText = `Rp${formatRupiah}`;
+            alert(`Total barang belanjaan anda adalah Rp${formatRupiah}`);
+            return harga;
         }
 
         function ProsesKembalian(){
-            console.log(ProsesPembelian());
+            if (jumlahUang.value === ''){
+                alert('Masukkan jumlah uang');
+                return;
+            }
+
+            const getHarga = ProsesPembelian();
+            if (getHarga === undefined){
+                return;
+            }
+
+            const getJumlahUang = Number(jumlahUang.value);
+            if (getJumlahUang < getHarga){
+                alert('Jumlah uang tidak mencukupi');
+                return
+            }
+
+            const totalKeseluruhan = getJumlahUang - getHarga;
+            const formatRupiah = totalKeseluruhan.toLocaleString('id-ID');
+            kembalian.innerText = `Rp${formatRupiah}`;
+            alert(`Total kembalian anda adalah Rp${formatRupiah}. Terimakasih telah berbelanja.`);
+            jumlahUang.value = '';
+            return totalKeseluruhan;
         }
 
         proses.addEventListener('click', () => {
@@ -54,8 +78,8 @@
         hitungKembalian.addEventListener('click', () => {
             ProsesKembalian();
         });
-
-
+        
+        
 
         // document.getElementById('proses').addEventListener('click', () => {
         //     const produk = document.querySelectorAll('input[name="produk"]:checked');
