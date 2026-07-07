@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Tabungan</title>
+    </head>
+    <body>
+        <h1>Aplikasi Tabungan</h1>
+        <p>Solusi pencatatan keuangan yang efisien dan cepat.</p>
+        <hr />
+
+        <h3>Jumlah Uang : <span id="display">Rp0</span></h3>
+
+        <p>Masukkan jumlah uang anda di dalam input yang ada di bawah ini.</p>
+        <label>Tambah Tabungan: </label><br />
+        <input type="number" id="inputUang" placeholder="Masukkan Uang..." />
+        <button id="tambah">TAMBAH</button>
+        <br />
+
+        <label>Ambil Tabungan: </label><br />
+        <input type="number" id="ambilUang" placeholder="Masukkan Uang..." />
+        <button id="ambil">AMBIL</button>
+
+        <script>
+            let keuangan = 0;
+            const display = document.getElementById("display");
+            const inputUang = document.getElementById("inputUang");
+            const tambah = document.getElementById("tambah");
+            const ambilUang = document.getElementById("ambilUang");
+            const ambil = document.getElementById("ambil");
+
+            function DisplayKeuangan() {
+                display.innerText = keuangan;
+            }
+
+            function TambahTabungan() {
+                const getInputUang = Number(inputUang.value);
+                if (getInputUang <= 0) {
+                    alert(
+                        "Masukkan jumlah uang yang ingin di tabung dan tidak boleh 0",
+                    );
+                    return;
+                }
+                keuangan += getInputUang;
+                DisplayKeuangan();
+                alert("Berhasil menambahkan jumlah uang");
+                inputUang.value = "";
+            }
+
+            function TarikTabungan() {
+                const getAmbilUang = Number(ambilUang.value);
+                if (getAmbilUang <= 0) {
+                    alert(
+                        "Masukkan jumlah uang yang ingin diambil dan tidak boleh 0",
+                    );
+                    return;
+                } else if (getAmbilUang >= keuangan) {
+                    alert("Jumlah uang yang diambil tidak mencukupi");
+                    return;
+                }
+                keuangan -= getAmbilUang;
+                DisplayKeuangan();
+                alert("Berhasil mengambil uang");
+                ambilUang.value = "";
+            }
+
+            tambah.addEventListener("click", () => {
+                TambahTabungan();
+            });
+
+            ambil.addEventListener("click", () => {
+                TarikTabungan();
+            });
+        </script>
+    </body>
+</html>

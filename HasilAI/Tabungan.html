@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Tabungan</title>
+    </head>
+    <body>
+        <h3>Aplikasi Tabungan Sederhana</h3>
+        <p>
+            Solusi adapatif untuk mengetahui jumlah keuangan anda dengan
+            aplikasi tabungan.
+        </p>
+        <hr />
+        <h3>Jumlah Tabungan : <span id="display">0</span></h3>
+        <input
+            type="number"
+            id="inputValue"
+            placeholder="Masukkan jumlah uang"
+        />
+        <button id="tambah">TAMBAH</button>
+
+        <h3>Riwayat Tabungan :</h3>
+        <ul id="list"></ul>
+
+        <script>
+            let keuangan = 0;
+            const display = document.getElementById("display");
+            const inputValue = document.getElementById("inputValue");
+            const list = document.getElementById("list");
+            const tambah = document.getElementById("tambah");
+
+            function updateDisplay() {
+                display.innerText = keuangan;
+            }
+
+            function TambahUang() {
+                const amountToAdd = Number(inputValue.value);
+                if (isNaN(amountToAdd) || amountToAdd <= 0) {
+                    alert("Masukkan jumlah uang yang valid (lebih dari 0)");
+                    return;
+                }
+                keuangan += amountToAdd;
+                updateDisplay();
+                History(amountToAdd); // Pass the amount added to History
+                inputValue.value = ""; // Clear the input field
+            }
+
+            function History(amount) {
+                const li = document.createElement("li");
+                li.innerText = `Ditambahkan: ${amount}, Total: ${keuangan}`;
+                list.append(li);
+            }
+
+            // Initialize display
+            updateDisplay();
+
+            tambah.addEventListener("click", () => {
+                TambahUang();
+            });
+        </script>
+    </body>
+</html>

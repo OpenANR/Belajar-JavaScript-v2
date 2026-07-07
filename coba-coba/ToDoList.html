@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List Sederhana</title>
+</head>
+<body>
+    <h1>TO DO LIST SEDERHANA JAVASCRIPT</h1>
+    <span>by: OpenANR</span>
+    
+    <hr>
+
+    <label for="task">Masukkan Task Baru</label><br>
+    <input type="text" name="" id="inputTask">
+    <button id="add">Tambah</button>
+    <button id="clear">Reset</button>
+
+    <ul id="list">
+        
+    </ul>
+
+    <script>
+        const inputTask = document.getElementById('inputTask');
+        const add = document.getElementById('add');
+        const list = document.getElementById('list');
+        const clear = document.getElementById('clear');
+        let saveArray = [];
+
+        // const data = 'test';
+        // saveArray.push(data);
+        // console.log(saveArray);
+
+        function AddTask(){
+            list.innerText = '';
+            const getInput = inputTask.value;
+            if (getInput.trim() === ''){
+                alert('Task wajib diisi');
+                return;
+            }
+            saveArray.push(getInput);
+            RenderList();
+            inputTask.value = '';
+        }
+
+        function RenderList(){
+            list.innerText = '';
+
+            saveArray.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerText = item + " ";
+
+                const deleteButton = document.createElement('button');
+                deleteButton.innerText = '❌';
+
+                deleteButton.addEventListener('click', () => {
+                    saveArray.splice(index, 1);
+                    RenderList();
+                });
+
+                li.append(deleteButton);
+                list.append(li);
+            });
+            console.log(saveArray);
+        }
+
+        function ResetTask(){
+            saveArray = [];
+            list.innerText = '';
+            alert('Task berhasil direset');
+        }
+
+        add.addEventListener('click', () => {
+            AddTask();
+        });
+
+        clear.addEventListener('click', () => {
+            ResetTask();
+        });
+    </script>
+</body>
+</html>
