@@ -20,6 +20,9 @@
         <input type="number" id="ambilUang" placeholder="Masukkan Uang..." />
         <button id="ambil">AMBIL</button>
 
+        <button id="clearHistory">BERSIHKAN RIWAYAT</button>
+        <ul id="list"></ul>
+
         <script>
             let keuangan = 0;
             const display = document.getElementById("display");
@@ -27,9 +30,10 @@
             const tambah = document.getElementById("tambah");
             const ambilUang = document.getElementById("ambilUang");
             const ambil = document.getElementById("ambil");
+            const clearHistory = document.getElementById('clearHistory');
 
             function DisplayKeuangan() {
-                display.innerText = keuangan;
+                display.innerText = ConvertToRupiah();
             }
 
             function TambahTabungan() {
@@ -41,9 +45,12 @@
                     return;
                 }
                 keuangan += getInputUang;
+                RiwayatTambah(getInputUang);
                 DisplayKeuangan();
-                alert("Berhasil menambahkan jumlah uang");
+                const formatRupiah = getInputUang.toLocaleString('id-ID');
+                alert(`Berhasil menabung dengan jumlah Rp${formatRupiah}. Total tabungan ${ConvertToRupiah()}`);
                 inputUang.value = "";
+                
             }
 
             function TarikTabungan() {
@@ -53,23 +60,70 @@
                         "Masukkan jumlah uang yang ingin diambil dan tidak boleh 0",
                     );
                     return;
-                } else if (getAmbilUang >= keuangan) {
+                } else if (getAmbilUang > keuangan) {
                     alert("Jumlah uang yang diambil tidak mencukupi");
                     return;
                 }
                 keuangan -= getAmbilUang;
+                RiwayatAmbil(getAmbilUang);
                 DisplayKeuangan();
-                alert("Berhasil mengambil uang");
+                const formatRupiah = getAmbilUang.toLocaleString('id-ID');
+                alert(`Berhasil mengambil dengan jumlah Rp${formatRupiah}. Total tabungan ${ConvertToRupiah()}`);
                 ambilUang.value = "";
             }
 
+            function RiwayatTambah(input){
+                const formatRupiah = input.toLocaleString('id-ID');
+                const li = document.createElement('li');
+                li.innerText = `Anda menabung Rp${formatRupiah}. Total tabungan ${ConvertToRupiah()}`;
+                list.append(li);
+            }
+
+            function RiwayatAmbil(input){
+                const formatRupiah = input.toLocaleString('id-ID');
+                const li = document.createElement('li');
+                li.innerText = `Anda mengambil Rp${formatRupiah}. Total tabungan ${ConvertToRupiah()}`;
+                list.append(li);
+            }
+
+            function ConvertToRupiah(){
+                const formatRupiah = keuangan.toLocaleString('id-ID');
+                const hasilFormat = `Rp${formatRupiah}`;
+                return hasilFormat;
+            }
+
+            function ClearHistory(){
+                if (confirm('Yakin riwayat tabungan akan dihapus ?')){
+                    list.innerText = '';
+                    alert('Riwayat tabungan berhasil dihapus.');
+                } else {
+                    alert('Dibatalkan');
+                }
+            }
+
             tambah.addEventListener("click", () => {
-                TambahTabungan();
+                TambahTabungan(); 
             });
 
             ambil.addEventListener("click", () => {
                 TarikTabungan();
             });
+
+            clearHistory.addEventListener('click', () => {
+                ClearHistory();
+            })
+
+            inputUang.addEventListener('keydown', function(event){
+                if (event.key === 'Enter'){
+                    TambahTabungan();
+                }
+            });
+
+            ambilUang.addEventListener('keydown', function(event){
+                if (event.key === 'Enter'){
+                    TarikTabungan();
+                }
+            })
         </script>
     </body>
 </html>
