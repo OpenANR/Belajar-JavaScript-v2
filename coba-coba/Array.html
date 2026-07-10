@@ -1,40 +1,47 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <input type="text" name="" id="inputan">
-    <button id="simpan">SIMPAN</button>
-    <script>
-        const inputan = document.getElementById('inputan');
-        const simpan = document.getElementById('simpan');
-        let data = [];
-        
-        function Proses(){
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <input type="text" name="" id="inputan" />
+        <button id="simpan">SIMPAN</button>
 
-            const getInputan = inputan.value.trim();
-            if (getInputan === ''){
-                alert('Data tidak boleh kosong');
-                return;
+        <ul id="list"></ul>
+        <script>
+            let data = JSON.parse(localStorage.getItem("saveRiwayat")) || [];
+            const inputan = document.getElementById("inputan");
+            const simpan = document.getElementById("simpan");
+            const list = document.getElementById("list");
+
+            function DisplayRiwayat() {
+                list.innerText = "";
+                data.forEach((item) => {
+                    const li = document.createElement("li");
+                    li.innerText = item;
+                    list.append(li);
+                });
             }
-            
-            if (data.length >= 3){
-                alert('Data Penuh');
-                return;
+
+            function Proses() {
+                const getValue = inputan.value.trim();
+                if (getValue === "") {
+                    alert("Inputan wajib diisi");
+                    return;
+                }
+                data.push(getValue);
+                localStorage.setItem("saveRiwayat", JSON.stringify(data));
+                DisplayRiwayat();
+                inputan.value = "";
+                console.log(data);
             }
-            data.push(getInputan);
-            console.log(data);
-        }
 
-        simpan.addEventListener('click', () => {
-            Proses();
-            inputan.value = '';
-        });
-
-        
-    </script>
-</body>
+            simpan.addEventListener("click", () => {
+                Proses();
+            });
+            DisplayRiwayat();
+        </script>
+    </body>
 </html>

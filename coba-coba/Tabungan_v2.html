@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Tabungan</title>
+    </head>
+    <body>
+        <h1>Aplikasi Tabungan</h1>
+        <p>Solusi pencatatan keuangan yang efisien dan cepat.</p>
+        <hr />
+
+        <h3>Jumlah Uang : <span id="display">Rp0</span></h3>
+
+        <p>Masukkan jumlah uang anda di dalam input yang ada di bawah ini.</p>
+        <label>Tambah Tabungan: </label><br />
+        <input type="number" id="inputUang" placeholder="Masukkan Uang..." />
+        <button id="tambah">TAMBAH</button>
+        <br />
+
+        <label>Ambil Tabungan: </label><br />
+        <input type="number" id="ambilUang" placeholder="Masukkan Uang..." />
+        <button id="ambil">AMBIL</button>
+
+        <button id="clearHistory">BERSIHKAN RIWAYAT</button>
+        <ul id="list"></ul>
+
+        <script>
+            /*  => Menabung Uang :
+                  1. Input jumlah nominal uang yang akan ditabung.
+                  2. Cek jika input <=0 maka tampilkan pesan alert dan stop.
+                  3. Simpan ke variabel saldo dan simpan juga ke localStorage.
+                  4. Tampilkan riwayat nominal inputan dan jumlah saldo saat ini ke halaman.
+
+                => Mengambil uang :
+                  1. Input jumlah nominal uang yang akan diambil.
+                  2. Cek jika input <= 0 dan input > dari saldo saat ini, tampilkan alert & stop.
+                  3. Kurangi saldo sesuai nominal dan update ke localStorage.
+                  4. Tampilkan riwayat nominal pengambilan dan jumlah saldo saat ini ke halaman.
+            */
+
+            let keuangan = Number(localStorage.getItem("saveKeuangan")) || 0;
+            let riwayat = JSON.parse(localStorage.getItem("saveRiwayat")) || [];
+            const display = document.getElementById("display");
+            const inputUang = document.getElementById("inputUang");
+            const tambah = document.getElementById("tambah");
+            const ambilUang = document.getElementById("ambilUang");
+            const ambil = document.getElementById("ambil");
+            const list = document.getElementById("list");
+            const clearHistory = document.getElementById("clearHistory");
+
+            function DisplayKeuangan() {
+                display.innerText = ConvertToRupiah(keuangan);
+            }
+
+            function DisplayRiwayat() {
+                list.innerText = "";
+                riwayat.forEach((item) => {
+                    const li = document.createElement("li");
+                    const formatRupiah = ConvertToRupiah(item.nominal);
+
+                    if (item.tipe === "tambah") {
+                        li.innerText = `Anda menabung ${formatRupiah}`;
+                    } else if (item.tipe === "ambil") {
+                        li.innerText = `Anda mengambil ${formatRupiah}`;
+                    }
+                    list.append(li);
+                });
+            }
+
+            function ConvertToRupiah(angka) {
+                return `Rp${angka.toLocaleString("id-ID")}`;
+            }
+
+            function TambahUang() {
+                const getInputUang = Number(inputUang.value);
+                if (getInputUang <= 0) {
+                    alert("Masukkan jumlah uang dan tidak boleh kurang dari 0");
+                    return;
+                }
+                keuangan += getInputUang;
+                localStorage.setItem("saveKeuangan", keuangan);
+                riwayat.push({ tipe: "tambah", nominal: getInputUang });
+                localStorage.setItem('saveRiwayat', JSON.stringify(riwayat));
+                ConvertToRupiah(getInputUang);
+                DisplayKeuangan();
+                DisplayRiwayat();
+                alert(
+                    `Anda berhasil menabung ${ConvertToRupiah(getInputUang)}. Tabungan anda saat ini ${ConvertToRupiah(keuangan)}`,
+                );
+                inputUang.value = "";
+            }
+
+            function AmbilUang() {
+                const getAmbilUang = Number(ambilUang.value);
+                if (getAmbilUang <= 0) {
+                    alert("Masukkan jumlah uang dan tidak boleh kurang dari 0");
+                    return;
+                }
+
+                if (getAmbilUang > keuangan) {
+                    alert(
+                        "Jumlah uang yang diambil melebihi jumlah tabungan saat ini.",
+                    );
+                    return;
+                }
+
+                keuangan -= getAmbilUang;
+                localStorage.setItem("saveKeuangan", keuangan);
+                riwayat.push({ tipe: "ambil", nominal: getAmbilUang });
+                localStorage.setItem('saveRiwayat', JSON.stringify(riwayat));
+                ConvertToRupiah(getAmbilUang);
+                DisplayKeuangan();
+                DisplayRiwayat();
+                alert(
+                    `Anda berhasil mengambil ${ConvertToRupiah(getAmbilUang)}. Tabungan anda saat ini ${ConvertToRupiah(keuangan)}`,
+                );
+                ambilUang.value = "";
+            }
+
+            function ClearHistory() {
+                if (
+                    confirm(
+                        "Apakah anda yakin untuk membersihkan riwayat tabungan anda ?",
+                    )
+                ) {
+                    riwayat = [];
+                    localStorage.removeItem("saveRiwayat");
+                    DisplayRiwayat();
+                    alert("Riwayat berhasil dibersihkan");
+                } else {
+                    alert("Dibatalkan");
+                }
+            }
+
+            tambah.addEventListener("click", () => {
+                TambahUang();
+            });
+
+            ambil.addEventListener("click", () => {
+                AmbilUang();
+            });
+
+            inputUang.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    TambahUang();
+                }
+            });
+
+            ambilUang.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    AmbilUang();
+                }
+            });
+
+            clearHistory.addEventListener('click', () => {
+              ClearHistory();
+            })
+
+            DisplayKeuangan();
+            DisplayRiwayat();
+        </script>
+    </body>
+</html>
