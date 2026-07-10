@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1 id="displayNama"></h1>
+    <script>
+        let umur = prompt('Masukkan umur anda ?');
+        let convert = Number(umur);
+
+        switch (convert){
+            case 20:
+                alert('Anda berhak membuat SIM');
+                break;
+            case 19:
+                alert('Kurang 1 tahun anda jika ingin membuat SIM');
+                break
+            default:
+                alert('Inputan tidak valid');
+        }
+    </script>
+</body>
+</html>
