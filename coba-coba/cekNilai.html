@@ -6,6 +6,60 @@
     <title>Cek Nilai</title>
 </head>
 <body>
+    <h3>Aplikasi Cek Nilai Sederhana</h3>
+    <input type="text" placeholder="Masukkan nama..." id="inputNama">
+    <input type="number" name="" id="inputNilai" placeholder="Masukkan nilai...">
+    <button id="proses">PROSES</button>
     
+    <h3 id="displayNama">0</h3>
+    <h3 id="displayNilai">0</h3>
+
+
+    <script>
+        const inputNama = document.getElementById('inputNama');
+        const inputNilai = document.getElementById('inputNilai');
+        const displayNama = document.getElementById('displayNama');
+        const displayNilai = document.getElementById('displayNilai');
+        const proses = document.getElementById('proses');
+
+        function Display(input){
+            if(input.jenis === 'nama'){
+                // console.log(`Nama kamu adalah ${input.nilai}`);
+                displayNama.innerText = `Nama kamu adalah ${input.nilai}`;
+            } 
+
+            if (input.jenis === 'nilai'){
+                // console.log(`Dan nilai kamu adalah ${input.nilai}`);
+                displayNilai.innerText = `Dan nilai kamu adalah ${input.nilai}`;
+            }
+        }
+        
+        function ProsesNilai(){
+            const getNama = inputNama.value.trim();
+
+            if(getNama === ''){
+                alert('Masukkan nama anda');
+                return;
+            }
+            const createObjectNama = {jenis: 'nama', nilai: getNama}
+            // console.log(createObjectNama);
+            Display(createObjectNama);
+
+            const getNilai = Number(inputNilai.value);
+
+            if(getNilai === 0){
+                alert('Wajib input nilai');
+                return;
+            }
+            const createObjectNilai = {jenis: 'nilai', nilai: getNilai}
+            // console.log(createObjectNilai);
+            Display(createObjectNilai);
+            
+
+        }
+        proses.addEventListener('click', () => {
+            ProsesNilai();
+        });
+    </script>
 </body>
 </html>

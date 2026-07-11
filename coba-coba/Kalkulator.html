@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sederhana</title>
+</head>
+<body>
+    <header>
+        <h1>Kalulator Sederhana</h1>
+    </header>
+    <main>
+        <div>
+            <h3>Mencoba aplikasi kalkulator sederhana dengan input 2 angka.</h3>
+        </div>
+        <div>
+            <div>
+                <label for="tambah">Penjumlahan : </label>
+                <input type="number" name="" id="angka1Tambah">
+                <span>+</span>
+                <input type="number" name="" id="angka2Tambah">
+                <button id="hitungTambah">HITUNG</button>
+                <div>
+                    <h1 id="hasilPenjumlahan">0</h1>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label for="kurang">Pengurangan : </label>
+                <input type="number" name="" id="angka1Kurang">
+                <span>+</span>
+                <input type="number" name="" id="angka2Kurang">
+                <button id="hitungKurang">HITUNG</button>
+                <div>
+                    <h1 id="hasilPengurangan">0</h1>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label for="kali">Perkalian : </label>
+                <input type="number" name="" id="angka1Kali">
+                <span>+</span>
+                <input type="number" name="" id="angka2Kali">
+                <button id="hitungKali">HITUNG</button>
+                <div>
+                    <h1 id="hasilPerkalian">0</h1>
+                </div>
+            </div>
+            <br>
+            <div>
+                <label for="bagi">Pembagian : </label>
+                <input type="number" name="" id="angka1Bagi">
+                <span>+</span>
+                <input type="number" name="" id="angka2Bagi">
+                <button id="hitungBagi">HITUNG</button>
+                <div>
+                    <h1 id="hasilPembagian">0</h1>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        const angka1Tambah = document.getElementById('angka1Tambah');
+        const angka2Tambah = document.getElementById('angka2Tambah');
+        const angka1Kurang = document.getElementById('angka1Kurang');
+        const angka2Kurang = document.getElementById('angka2Kurang');
+        const angka1Kali = document.getElementById('angka1Kali');
+        const angka2Kali = document.getElementById('angka2Kali');
+        const angka1Bagi = document.getElementById('angka1Bagi');
+        const angka2Bagi = document.getElementById('angka2Bagi');
+        const hitungTambah = document.getElementById('hitungTambah');
+        const hitungKurang = document.getElementById('hitungKurang');
+        const hitungKali = document.getElementById('hitungKali');
+        const hitungBagi = document.getElementById('hitungBagi');
+        const hasilPenjumlahan = document.getElementById('hasilPenjumlahan');
+        const hasilPengurangan = document.getElementById('hasilPengurangan');
+        const hasilPerkalian = document.getElementById('hasilPerkalian');
+        const hasilPembagian = document.getElementById('hasilPembagian');
+
+        function ProsesPenjumlahan(){
+            const getAngka1Tambah = Number(angka1Tambah.value);
+            const getAngka2Tambah = Number(angka2Tambah.value);
+            const hitungPenjumlahan = getAngka1Tambah + getAngka2Tambah;
+            console.log(hitungPenjumlahan);
+            hasilPenjumlahan.innerText = hitungPenjumlahan;
+        }
+
+        function ProsesPengurangan(){
+            const getAngka1Kurang = Number(angka1Kurang.value);
+            const getAngka2Kurang = Number(angka2Kurang.value);
+            const hitungPengurangan = getAngka1Kurang - getAngka2Kurang;
+            console.log(hitungPengurangan);
+            hasilPengurangan.innerText = hitungPengurangan;
+        }
+
+        function ProsesPerkalian(){
+            const getAngka1Kali = Number(angka1Kali.value);
+            const getAngka2Kali = Number(angka2Kali.value);
+            const hitungPerkalian = getAngka1Kali * getAngka2Kali;
+            console.log(hitungPerkalian);
+            hasilPerkalian.innerText = hitungPerkalian;
+        }
+
+        function ProsesPembagian(){
+            const getAngka1Bagi = Number(angka1Bagi.value);
+            const getAngka2Bagi = Number(angka2Bagi.value);
+
+            if (getAngka2Bagi === 0){
+                alert('Pembagian tidak bisa dibagi dengan angka 0');
+                return;
+            }
+            
+            const hitungPembagian = getAngka1Bagi / getAngka2Bagi;
+            console.log(hitungPembagian);
+            hasilPembagian.innerText = hitungPembagian;
+        }
+
+        hitungTambah.addEventListener('click', () => {
+            ProsesPenjumlahan();
+        });
+
+        hitungKurang.addEventListener('click', () => {
+            ProsesPengurangan();
+        })
+
+        hitungKali.addEventListener('click', () => {
+            ProsesPerkalian();
+        });
+
+        hitungBagi.addEventListener('click', () => {
+            ProsesPembagian();
+        });
+    </script>
+</body>
+</html>
