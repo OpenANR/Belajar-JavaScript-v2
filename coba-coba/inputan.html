@@ -6,11 +6,20 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="number" name="" id="angka">
-    <button id="hitung">HHITUNG</button>
-
+    <textarea name="" id="inputan"></textarea>
+    <p id="teks"></p>
+    <p>Jumlah Karakter : <strong id="jumlah"></strong></p>
     <script>
-        let data = ['Nuzul']
+        let inputan = document.getElementById('inputan');
+        let teks = document.getElementById('teks');
+        let jumlah = document.getElementById('jumlah');
+
+        inputan.addEventListener('input', function(){
+            teks.innerText = inputan.value;
+
+            const limitTeks = jumlah.innerText = inputan.value.length;
+            
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Input Studio</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ---------- RESET & BASE ---------- */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #f6f9fc 0%, #e9f1f8 100%);
+            padding: 1.5rem;
+        }
+
+        /* ---------- MAIN CARD ---------- */
+        .card {
+            max-width: 720px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 2.5rem;
+            padding: 2.5rem 2.8rem 2.8rem;
+            box-shadow:
+                0 20px 60px rgba(0, 20, 40, 0.08),
+                0 8px 24px rgba(0, 20, 40, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow:
+                0 30px 80px rgba(0, 20, 40, 0.12),
+                0 10px 32px rgba(0, 20, 40, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        /* ---------- HEADER ---------- */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .header .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f7df3, #6c5ce7);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            box-shadow: 0 6px 16px rgba(79, 125, 243, 0.25);
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #0b1a33;
+            background: linear-gradient(135deg, #0b1a33, #2d3b66);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .badge {
+            margin-left: auto;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 0.3rem 0.9rem;
+            border-radius: 100px;
+            background: rgba(79, 125, 243, 0.12);
+            color: #4f7df3;
+            border: 1px solid rgba(79, 125, 243, 0.15);
+        }
+
+        /* ---------- TEXTAREA ---------- */
+        .textarea-wrapper {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1.25rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: #0b1a33;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(203, 213, 225, 0.5);
+            border-radius: 1.5rem;
+            outline: none;
+            resize: vertical;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+        }
+
+        textarea:focus {
+            border-color: #4f7df3;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow:
+                0 0 0 4px rgba(79, 125, 243, 0.12),
+                inset 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+
+        textarea:focus+.focus-ring {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* subtle focus ring (decorative) */
+        .focus-ring {
+            position: absolute;
+            inset: -4px;
+            border-radius: 1.7rem;
+            pointer-events: none;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            background: linear-gradient(135deg, rgba(79, 125, 243, 0.15), rgba(108, 92, 231, 0.10));
+            z-index: -1;
+        }
+
+        /* ---------- LIVE PREVIEW ---------- */
+        .preview-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-label span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            background: rgba(100, 116, 139, 0.10);
+            font-size: 0.6rem;
+        }
+
+        .preview-box {
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 1.25rem;
+            padding: 1.25rem 1.5rem;
+            min-height: 4rem;
+            border: 1.5px dashed rgba(203, 213, 225, 0.5);
+            transition: border-color 0.25s ease, background 0.25s ease;
+            word-break: break-word;
+        }
+
+        .preview-box.has-text {
+            border-color: rgba(79, 125, 243, 0.25);
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .preview-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #0b1a33;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .preview-box .empty-hint {
+            color: #94a3b8;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* ---------- FOOTER : COUNTER ---------- */
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1.25rem;
+            border-top: 1.5px solid rgba(203, 213, 225, 0.3);
+        }
+
+        .counter-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .counter-wrap .count-number {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #0b1a33;
+            min-width: 3rem;
+            text-align: right;
+            transition: color 0.25s ease;
+            line-height: 1;
+        }
+
+        .counter-wrap .count-number.warning {
+            color: #e67e22;
+        }
+
+        .counter-wrap .count-number.danger {
+            color: #e74c3c;
+            animation: pulse-count 0.8s ease-in-out 2;
+        }
+
+        .counter-wrap .count-label {
+            font-weight: 400;
+            color: #94a3b8;
+        }
+
+        /* progress bar */
+        .progress-wrap {
+            flex: 1;
+            min-width: 100px;
+            height: 6px;
+            background: rgba(203, 213, 225, 0.4);
+            border-radius: 100px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 100px;
+            background: linear-gradient(90deg, #4f7df3, #6c5ce7);
+            transition: width 0.25s ease, background 0.3s ease;
+        }
+
+        .progress-bar.warning {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+        }
+
+        .progress-bar.danger {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            animation: pulse-bar 0.6s ease-in-out 2;
+        }
+
+        /* max chars hint */
+        .max-hint {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #94a3b8;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+
+        .max-hint strong {
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        /* ---------- ANIMATIONS ---------- */
+        @keyframes pulse-count {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        @keyframes pulse-bar {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.75rem 1.25rem 2rem;
+                border-radius: 1.75rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .header .badge {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.7rem;
+            }
+
+            textarea {
+                min-height: 150px;
+                padding: 1rem 1.25rem;
+                font-size: 0.95rem;
+            }
+
+            .counter-wrap .count-number {
+                font-size: 1.6rem;
+                min-width: 2.4rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+
+            .progress-wrap {
+                min-width: unset;
+            }
+
+            .preview-box {
+                padding: 1rem 1.25rem;
+                min-height: 3.5rem;
+            }
+
+            .max-hint {
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 1.25rem 0.9rem 1.5rem;
+            }
+
+            .header .icon {
+                width: 34px;
+                height: 34px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="icon">✎</div>
+            <h1>Text Studio</h1>
+            <span class="badge">live</span>
+        </div>
+
+        <!-- TEXTAREA -->
+        <div class="textarea-wrapper">
+            <textarea id="inputan" placeholder="Start typing your text here …" spellcheck="true"></textarea>
+            <div class="focus-ring"></div>
+        </div>
+
+        <!-- LIVE PREVIEW -->
+        <div class="preview-section">
+            <div class="preview-label">
+                <span>👁</span> Live Preview
+            </div>
+            <div class="preview-box" id="previewBox">
+                <p id="teks"><span class="empty-hint">Your text will appear here</span></p>
+            </div>
+        </div>
+
+        <!-- FOOTER : COUNTER + PROGRESS -->
+        <div class="footer">
+            <div class="counter-wrap">
+                <span class="count-label">Characters</span>
+                <span class="count-number" id="jumlah">0</span>
+            </div>
+
+            <div class="progress-wrap">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <span class="max-hint">max <strong id="maxLabel">500</strong></span>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            const inputan = document.getElementById('inputan');
+            const teks = document.getElementById('teks');
+            const jumlah = document.getElementById('jumlah');
+            const progressBar = document.getElementById('progressBar');
+            const previewBox = document.getElementById('previewBox');
+            const maxLabel = document.getElementById('maxLabel');
+
+            const MAX_CHARS = 500;
+
+            // --- update UI ---
+            function updateUI() {
+                const raw = inputan.value;
+                const len = raw.length;
+
+                // 1. preview text
+                if (raw.trim() === '') {
+                    teks.innerHTML = '<span class="empty-hint">Your text will appear here</span>';
+                    previewBox.classList.remove('has-text');
+                } else {
+                    teks.innerText = raw;
+                    previewBox.classList.add('has-text');
+                }
+
+                // 2. character count
+                jumlah.innerText = len;
+
+                // 3. progress bar
+                const pct = Math.min((len / MAX_CHARS) * 100, 100);
+                progressBar.style.width = pct + '%';
+
+                // 4. color states
+                jumlah.classList.remove('warning', 'danger');
+                progressBar.classList.remove('warning', 'danger');
+
+                if (len > MAX_CHARS * 0.85 && len <= MAX_CHARS) {
+                    jumlah.classList.add('warning');
+                    progressBar.classList.add('warning');
+                } else if (len > MAX_CHARS) {
+                    jumlah.classList.add('danger');
+                    progressBar.classList.add('danger');
+                }
+
+                // 5. enforce max (optional — we show warning, but don't truncate)
+                // we let user type beyond but visually warn.
+            }
+
+            // --- event listener ---
+            inputan.addEventListener('input', updateUI);
+
+            // --- initial state ---
+            updateUI();
+
+            // (optional) set max label
+            maxLabel.textContent = MAX_CHARS;
+
+            // (bonus) auto-focus
+            inputan.focus();
+
+        })();
+    </script>
+
+</body>
+</html>
