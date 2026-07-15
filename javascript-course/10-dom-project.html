@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Project</title>
+    <style>
+        .subscribe-button {
+            border: none;
+            background-color: black;
+            color: white;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .is-subscribe {
+            background-color: rgb(218, 218, 218);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <p>Tombol Subscribe YouTube</p>
+    <button class="js-subscribe-button subscribe-button">Subscribe</button>
+
+    <p>Amazon Shipping Calculator</p>
+    <input type="number" placeholder="Biaya pemesanan..." class="js-cost-input" onkeydown="handleCostKeydown(event);">
+    <button onclick="calculateTotal();">Hitung</button>
+
+    <p class="js-total-cost"></p>
+
+    <script>
+        
+        function handleCostKeydown(event){
+            if (event.key === 'Enter'){
+                calculateTotal();
+            }
+        }
+
+        function calculateTotal(){
+            const inputElement = document.querySelector('.js-cost-input');
+            let cost = Number(inputElement.value);
+
+            if (cost < 40){
+                cost = cost + 10;
+            }
+
+            document.querySelector('.js-total-cost').innerHTML = `$${cost}`;
+        }
+
+        const getButton = document.querySelector('.js-subscribe-button');
+        
+        function Subscribe(){
+
+            if (getButton.innerText === 'Subscribe'){
+                getButton.innerText = 'Disubscribe';
+                getButton.classList.add('is-subscribe');
+                // alert('Anda telah subscribe');
+
+            } else {
+                getButton.innerText = 'Subscribe'
+                getButton.classList.remove('is-subscribe');
+            }
+        }
+        getButton.addEventListener('click', () => {
+            Subscribe();
+        });
+    </script>
+</body>
+</html>

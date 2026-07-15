@@ -11,19 +11,26 @@
     <button class="tombolHuruf">B</button>
     <button class="tombolHuruf">C</button>
     <button class="tombolHuruf">D</button>
+    <br>
+    <br>
+    <button class="satu">SATU</button>
+    <input type="text" name="" id="output2">
     <script>
         
         const output = document.getElementById('output');
         const tombolHuruf = document.querySelectorAll('.tombolHuruf');
+        const satu = document.querySelector('.satu');
 
-        tombolHuruf.forEach(tombol => {
-            tombol.addEventListener('click', function() {
+        function Tampilkan(){
+            const output2 = document.getElementById('output2');
+            output2.value += satu.innerText;
+        }
 
-                const huruf = this.innerText;
-                output.value += huruf;
-                
-            });
+        satu.addEventListener('click', () => {
+            Tampilkan();
         });
+
+        
     </script>
 </body>
 </html>

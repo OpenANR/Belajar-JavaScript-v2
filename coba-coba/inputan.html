@@ -14,11 +14,19 @@
         let teks = document.getElementById('teks');
         let jumlah = document.getElementById('jumlah');
 
-        inputan.addEventListener('input', function(){
+        function Realtime(){
             teks.innerText = inputan.value;
+            jumlah.innerText = inputan.value.length;
+            const limit = inputan.value.length;
+            console.log(limit);
 
-            const limitTeks = jumlah.innerText = inputan.value.length;
-            
+            if (limit > 10){
+                alert('halo');
+                return;
+            }
+        }
+        document.addEventListener('input', () => {
+            Realtime();
         });
     </script>
 </body>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .judul {
+            color: black;
+        }
+
+        .merah {
+            color: red;
+        }
+
+        .kuning {
+            color: yellow;
+        }
+
+        .hijau {
+            color: green;
+        }
+
+        .biru {
+            color: blue;
+        }
+
+        .hitam {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="tombol-warna">MERAH</button>
+    <button class="tombol-warna">KUNING</button>
+    <button class="tombol-warna">HIJAU</button>
+    <button class="tombol-warna">BIRU</button>
+    <button class="tombol-warna">HITAM</button>
+
+    <h1 id="teks" class="judul">INI ADALAH TEKS</h1>
+
+    <script>
+        const getButton = document.querySelectorAll('.tombol-warna');
+        const teks = document.querySelector('.judul');
+        // console.log(teks);
+
+        getButton.forEach(item => {
+            item.addEventListener('click', () => {
+                const warna = item.innerText.toLowerCase();
+                console.log(warna);
+
+                teks.className = warna;
+                teks.innerText = `INI ADALAH TEKS BERWARNA ${item.innerText}`;
+            });
+        });
+    </script>
+</body>
+
+</html>
