@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/inputanv2.css">
+</head>
+<body>
+
+    <header>
+        <div class="title">
+            <h1>Realtime Input</h1>
+            <p>by : OpenANR</p>
+        </div>
+        <nav class="nav-menu">
+            <ul class="menu">
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Tutorial</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <div class="title-input">
+                <h3>Tulis teks di bawah ini</h3>
+            </div>
+            <div class="info-wrapper">
+                <div class="output-length">
+                    <p>Jumlah : <span id="lengthNumber">0</span></p>
+                </div>
+                <div class="button-box">
+                    <button class="reset-button" id="reset">RESET</button>
+                </div>
+            </div>
+            <div class="input-box">
+                <textarea name="" id="inputan" placeholder="Ketik teks disini"></textarea>
+            </div>
+            
+            <div class="output-box">
+                <textarea name="" id="output" readonly placeholder="Belum ada teks..."></textarea>
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        const inputan = document.getElementById('inputan');
+        const output = document.getElementById('output');
+        const lengthNumber = document.getElementById('lengthNumber');
+        const reset = document.getElementById('reset');
+
+        function Proses() {
+            output.value = inputan.value;
+            lengthNumber.innerText = inputan.value.length;
+        }
+
+        function Reset(){
+            output.value = '';
+            inputan.value = '';
+            lengthNumber.innerText = '0';
+            alert('Progress telah direset.');
+        }
+
+        inputan.addEventListener('input', () => {
+            Proses();
+            
+        });
+
+        reset.addEventListener('click', () => {
+            Reset();
+        });
+    </script>
+
+</body>
+</html>

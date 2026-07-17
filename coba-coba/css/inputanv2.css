@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    font-family: 'Poppins';
+}
+
+body {
+    background-color: #F8FAFC;
+}
+
+header {
+    display: flex;
+    background-color: #03045E;
+    justify-content: space-between;
+    padding: 20px 20px;
+    align-items: center;
+    color: white;
+}
+
+header .title {
+    margin-left: 30px;
+}
+
+header .title p {
+    font-style: italic;
+}
+
+header .nav-menu {
+    display: flex;
+    margin-right: 30px;
+}
+
+header .nav-menu .menu {
+    display: flex;
+    list-style-type: none;
+    gap: 40px;
+}
+
+header .nav-menu .menu li a {
+    text-decoration: none;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+header .nav-menu .menu li a:hover {
+    text-decoration: underline;
+}
+
+/* main {
+    display: flex;
+} */
+
+main section {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 40px;
+}
+
+main section .title-input {
+    margin-top: 30px;
+}
+
+main section .title-input h3{
+    font-size: 25px;
+}
+
+main section .info-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    background-color: #E8F1FF;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-left: 5px solid #2563EB;
+}
+
+main section .info-wrapper .output-length #lengthNumber {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+main section .info-wrapper .button-box .reset-button {
+    background-color: #DC2626;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.15s;
+}
+
+main section .button-box .reset-button:hover{
+    background-color: #991B1B;
+}
+
+main section .button-box .reset-button:active{
+    background-color: #db3333;
+}
+
+main section .input-box {
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+main section .output-box {
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+}
+
+main section .input-box textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 300px;
+    resize: vertical;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    outline: none;
+    padding: 10px;
+    transition: box-shadow 0.15s;
+}
+
+main section .input-box textarea:focus {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+main section .output-box textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: 300px;
+    resize: vertical;
+    font-size: 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    outline: none;
+    padding: 10px;
+    transition: box-shadow 0.15s;
+}
